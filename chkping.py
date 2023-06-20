@@ -20,3 +20,7 @@ def run_ping():
         time.sleep(180)  # Aguarda 3 minutos (180 segundos) antes do próximo teste
 
 run_ping()
+
+
+def inicio():
+    return 1
