@@ -1,7 +1,4 @@
-import datetime
-import os
-import shutil
-import subprocess
+from multiprocessing import Process
 import time
 import win32serviceutil
 import win32service
@@ -46,11 +43,27 @@ class MyService(win32serviceutil.ServiceFramework):
             file.write(f'\nServiço em execução!\n')
         while self.is_running:
             try:
-                chkping.inicio()
+                # Criação dos processos
+                processo1 = Process(target=chkping.inicio1())
+                processo2 = Process(target=chkping.inicio2())
+                processo3 = Process(target=chkping.inicio3())
+                processo4 = Process(target=chkping.inicio4())
+
+                # Inicia os processos
+                processo1.start()
+                processo2.start()
+                processo3.start()
+                processo4.start()
+
+                # Aguarda a finalização dos processos
+                processo1.join()
+                processo2.join()
+                processo3.join()
+                processo4.join()
+
                 with open(checkprivate.logfile, 'a') as file:
                     file.write(f'While!\n')
-                    subprocess.Popen(['c:\\Program Files\\WireGuard\\chkwgg.exe'])
-                    time.sleep(60)
+                    time.sleep(180)
             except Exception as e:
                 with open(checkprivate.logfile, 'a') as file:
                     file.write(f'\nFALHA! - Self.Runing - {e}')

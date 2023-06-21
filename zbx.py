@@ -2,7 +2,7 @@ from pyzabbix import ZabbixSender, ZabbixMetric
 import platform
 import checkprivate
 
-def send(valor):
+def send(chave,valor):
 
     # Configurações do servidor Zabbix
     zabbix_server = checkprivate.zabbix_server
@@ -12,14 +12,13 @@ def send(valor):
     # Dados ue serão enviados
     hostname = platform.node()
     hostname=hostname.upper()
-    chave_unica_do_item = checkprivate.chave_unica_do_item
-    chave_operadora = checkprivate.chave_operadora
     
 
     # Cria uma lista de métricas ZabbixMetric
     metrics = [
-        ZabbixMetric(hostname,chave_unica_do_item,valor[0]),
-        ZabbixMetric(hostname,chave_operadora,valor[1])
+        ZabbixMetric(hostname,chave[0],valor[0]),
+        ZabbixMetric(hostname,chave[1],valor[1]),
+        ZabbixMetric(hostname,chave[2],valor[2])
     ]
 
     #print(f"Hostname: {hostname}")
@@ -40,10 +39,10 @@ def send(valor):
 
         if not result.failed:
             if result.processed:
-                return (f'TRUE: {hostname} ; {chave_unica_do_item} ; {valor}')
+                return (f'TRUE: {hostname} ; {chave} ; {valor}')
             #print(f'Métricas enviadas com sucesso. - {result.time}')
             else:
-                return (f'FALSE: {hostname} ; {chave_unica_do_item} ; {valor}')
+                return (f'FALSE: {hostname} ; {chave} ; {valor}')
             #print(f'Falha ao enviar as métricas. - {result.time}')
         else:
             return "Falhou ZBX - SEM TIMEOUT"
