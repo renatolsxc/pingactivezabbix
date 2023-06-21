@@ -1,0 +1,8 @@
+build
+dist
+.vscode
+__pycache__
+private.py
+CheckInternetZbxA.spec
+checkprivate.py
+chkwgg.spec
