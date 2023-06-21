@@ -6,8 +6,15 @@ def run_ping(host):
     while True:
         try:
             response = ping(host, count=6)
-            loss_percentage = response.packet_loss
-            response_time = response.rtt_avg_ms / 1000  # Convertendo para segundos
+            loss_percentage = response.packet_loss * 100
+
+            #with open(checkprivate.logfile, 'a') as file:
+            #    file.write(f'loss = {loss_percentage}\n')
+            
+            if loss_percentage == 100.0:
+                response_time = 0
+            else:
+                response_time = response.rtt_avg_ms / 1000  # Convertendo para segundos
             return [1,format(response_time),format(loss_percentage)]
             #print("Pingou: Sim")
             #print("Loss: {}%".)
