@@ -1,19 +1,19 @@
 from pyzabbix import ZabbixSender, ZabbixMetric
 import platform
-import checkwggalpaoprivate
+import checkprivate
 
 def send(valor):
 
     # Configurações do servidor Zabbix
-    zabbix_server = checkwggalpaoprivate.zabbix_server
-    zabbix_port =  checkwggalpaoprivate.zabbix_port
+    zabbix_server = checkprivate.zabbix_server
+    zabbix_port =  checkprivate.zabbix_port
     
 
     # Dados ue serão enviados
     hostname = platform.node()
     hostname=hostname.upper()
-    chave_unica_do_item = checkwggalpaoprivate.chave_unica_do_item
-    chave_operadora = checkwggalpaoprivate.chave_operadora
+    chave_unica_do_item = checkprivate.chave_unica_do_item
+    chave_operadora = checkprivate.chave_operadora
     
 
     # Cria uma lista de métricas ZabbixMetric
