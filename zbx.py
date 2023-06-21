@@ -45,7 +45,7 @@ def send(chave,valor):
                 return (f'FALSE: {hostname} ; {chave} ; {valor}')
             #print(f'Falha ao enviar as métricas. - {result.time}')
         else:
-            return "Falhou ZBX - SEM TIMEOUT"
+            return f"Falhou ZBX - SEM TIMEOUT {hostname},{chave[0]},{valor[0]},{chave[1]},{valor[1]},{chave[2]},{valor[2]}"
         
     except Exception as e:
         return "Falhou ZBX - EXCECAO" 

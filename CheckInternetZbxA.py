@@ -10,9 +10,9 @@ import checkprivate
 import chkping
 
 
-class MyService(win32serviceutil.ServiceFramework):
-    _svc_name_ = 'Check-WGGalpao'
-    _svc_display_name_ = 'Check-WGGalpao'
+class CheckInternetZbxA(win32serviceutil.ServiceFramework):
+    _svc_name_ = 'CheckInternetZbxA'
+    _svc_display_name_ = 'CheckInternetZbxA'
 
     logfile = checkprivate.logfile
 
@@ -24,14 +24,14 @@ class MyService(win32serviceutil.ServiceFramework):
 
     def SvcStop(self):
         with open(checkprivate.logfile, 'a') as file:
-            file.write(f'\nRecebi Stop!\n')
+            file.write(f'Recebi Stop!\n')
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
         win32event.SetEvent(self.hWaitStop)
         self.is_running = False
 
     def SvcDoRun(self):
         with open(checkprivate.logfile, 'a') as file:
-            file.write(f'\nRecebi Run!\n')
+            file.write(f'Recebi Run!\n')
         servicemanager.LogMsg(servicemanager.EVENTLOG_INFORMATION_TYPE,
                               servicemanager.PYS_SERVICE_STARTED,
                               (self._svc_name_, ''))
@@ -40,9 +40,12 @@ class MyService(win32serviceutil.ServiceFramework):
     def main(self):
         # Coloque aqui o código principal do seu serviço
         with open(checkprivate.logfile, 'a') as file:
-            file.write(f'\nServiço em execução!\n')
+            file.write(f'Serviço em execução!\n')
         while self.is_running:
             try:
+                with open(checkprivate.logfile, 'a') as file:
+                    file.write(f'While! Antes das threads\n')
+
                 # Criação dos processos
                 processo1 = Process(target=chkping.inicio1())
                 processo2 = Process(target=chkping.inicio2())
@@ -62,8 +65,10 @@ class MyService(win32serviceutil.ServiceFramework):
                 processo4.join()
 
                 with open(checkprivate.logfile, 'a') as file:
-                    file.write(f'While!\n')
-                    time.sleep(180)
+                    file.write(f'While! Depois das threads\n')
+                
+                time.sleep(180)
+
             except Exception as e:
                 with open(checkprivate.logfile, 'a') as file:
                     file.write(f'\nFALHA! - Self.Runing - {e}')
@@ -74,7 +79,7 @@ class MyService(win32serviceutil.ServiceFramework):
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         servicemanager.Initialize()
-        servicemanager.PrepareToHostSingle(MyService)
+        servicemanager.PrepareToHostSingle(CheckInternetZbxA)
         servicemanager.StartServiceCtrlDispatcher()
     else:
-        win32serviceutil.HandleCommandLine(MyService)
+        win32serviceutil.HandleCommandLine(CheckInternetZbxA)

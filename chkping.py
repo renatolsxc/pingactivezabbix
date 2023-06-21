@@ -1,11 +1,11 @@
-import time
 from pythonping import ping
 import zbx
+import checkprivate
 
 def run_ping(host):
     while True:
         try:
-            response = ping('www.google.com', count=6)
+            response = ping(host, count=6)
             loss_percentage = response.packet_loss
             response_time = response.rtt_avg_ms / 1000  # Convertendo para segundos
             return [1,format(response_time),format(loss_percentage)]
@@ -21,22 +21,39 @@ def run_ping(host):
 
         #time.sleep(180)  # Aguarda 3 minutos (180 segundos) antes do próximo teste
 
-run_ping()
+#run_ping()
 
 
 def inicio1():
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio1\n')
     host = "4.2.2.1"
     result = run_ping(host)
-    zbx.send(["pingA1","rtA1","lossA1"],result)
+    zbxresult = zbx.send(["pingA1","rtA1","lossA1"],result)
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio1.1 - {zbxresult}\n')
+
 def inicio2():
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio2\n')
     host = "4.2.2.2"
     result = run_ping(host)
-    zbx.send(["pingA2","rtA2","lossA2"],result)
+    zbxresult = zbx.send(["pingA2","rtA2","lossA2"],result)
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio2.1 - {zbxresult}\n')
 def inicio3():
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio3\n')
     host = "4.2.2.3"
     result = run_ping(host)
-    zbx.send(["pingA3","rtA3","lossA3"],result)
+    zbxresult = zbx.send(["pingA3","rtA3","lossA3"],result)
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio3.1 - {zbxresult}\n')
 def inicio4():
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio4\n')
     host = "4.2.2.4"
     result = run_ping(host)
-    zbx.send(["pingA4","rtA4","lossA4"],result)
+    zbxresult = zbx.send(["pingA4","rtA4","lossA4"],result)
+    with open(checkprivate.logfile, 'a') as file:
+        file.write(f'inicio4.1 - {zbxresult}\n')
